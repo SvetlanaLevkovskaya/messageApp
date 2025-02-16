@@ -1,0 +1,10 @@
+{  "trailingComma": "es5",
+  "semi": false,
+  "singleQuote": true,
+  "printWidth": 100,
+  "bracketSameLine": false,
+
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "endOfLine": "auto"
+}

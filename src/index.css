@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+   background-color: #fcf5eb;
+
+}
+
+body {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+
+
+nav {}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0.5rem 0; /* Добавление промежутка между элементами */
+  text-align: left;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: blue;
+  display: block; /* Элементы ссылки занимают всю ширину */
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
