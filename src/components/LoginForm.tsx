@@ -7,7 +7,6 @@ import { getAuthorizationCode } from '../services/clientApi.ts'
 import { validationSchema } from '../utils/validationSchema.ts'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-
 interface FormData {
   idInstance: string
   apiTokenInstance: string
@@ -46,18 +45,19 @@ export const LoginForm = () => {
   }
 
   return (
-    <div className="w-full min-w-[504px] mx-auto px-[68px] py-[60px] bg-white rounded-3xl border border-gray-800 flex flex-col gap-3">
+    <div className="w-full min-w-[504px] mx-auto px-[68px] py-[60px] bg-white rounded-3xl border border-gray-800">
       <h1 className="text-[32px] text-center mb-8">Log into WhatsApp Web</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5 text-center">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-5 text-center transition-all"
+      >
         <Input
-          type="text"
           placeholder="ID Instance"
           register={register('idInstance')}
           errors={errors.idInstance}
-         />
+        />
 
         <Input
-          type="text"
           placeholder="API Token Instance"
           register={register('apiTokenInstance')}
           errors={errors.apiTokenInstance}
@@ -68,12 +68,11 @@ export const LoginForm = () => {
           placeholder="Phone number"
           register={register('phoneNumber')}
           errors={errors.phoneNumber}
-          hasErrorContainer={true}
         />
 
         <button
           type="submit"
-          className={`px-6 bg-teal-700 text-white font-semibold py-2.5 rounded-full hover:bg-teal-800 transition ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
+          className={`px-6 bg-teal-700 text-white font-semibold py-2.5 rounded-full hover:bg-teal-800 w-fit mx-auto transition-all ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
           disabled={isSubmitting}
         >
           Login

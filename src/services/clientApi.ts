@@ -9,8 +9,8 @@ export const handleApiError = (error: unknown): string => {
       console.error(error.message)
       errorMessage = error.message || error.response.statusText
     } else if (error.request) {
-      console.error('No Response Error:', error.request.statusText)
-      errorMessage = error.request.statusText || 'No Response from server'
+      console.error('No response Error:', error.request.statusText)
+      errorMessage = error.request.statusText || 'No response from server'
     }
   } else if (error instanceof Error) {
     console.error('Unknown Error:', error.message)
