@@ -21,7 +21,7 @@ export const MessageInput = ({ inputMessage, onInputChange, onSendMessage, onKey
       />
       <div className="flex items-center gap-4">
         <div
-          className={`text-gray-400 transition-colors duration-300 ease-in-out cursor-pointer hover:text-blue-500 ${inputMessage ? 'text-blue-600' : ''}`}
+          className={`text-gray-400 transition-colors duration-300 ease-in-out cursor-pointer hover:text-blue-600 ${inputMessage ? '!text-blue-600' : ''}`}
           onClick={onSendMessage}
         >
           <LuSendHorizontal />

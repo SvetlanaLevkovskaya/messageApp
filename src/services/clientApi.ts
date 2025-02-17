@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-
 export const handleApiError = (error: unknown): string => {
   let errorMessage = 'Unexpected Error'
 
@@ -25,8 +24,7 @@ export const handleApiError = (error: unknown): string => {
 
 const instanceAxios = axios.create({
   baseURL: import.meta.env.VITE_GREEN_API_BASE_URL,
-});
-
+})
 
 instanceAxios.interceptors.response.use(
   (res) => res,
@@ -35,9 +33,6 @@ instanceAxios.interceptors.response.use(
     return Promise.reject(new Error(errorMessage))
   }
 )
-
-const idInstance = localStorage.getItem('idInstance')
-const apiTokenInstance = localStorage.getItem('apiTokenInstance')
 
 export const getAuthorizationCode = async (
   idInstance: string,
@@ -48,19 +43,24 @@ export const getAuthorizationCode = async (
     const response = await instanceAxios.post(
       `/waInstance${idInstance}/getAuthorizationCode/${apiTokenInstance}`,
       { phoneNumber: Number(phoneNumber) }
-    );
+    )
 
     if (response.data.status) {
-      return response.data.code;
+      return response.data.code
     } else {
-      throw new Error('Failed to retrieve the authorization code. Please try again.');
+      throw new Error('Failed to retrieve the authorization code. Please try again.')
     }
   } catch (error) {
-    throw new Error(handleApiError(error));
+    throw new Error(handleApiError(error))
   }
-};
+}
 
-export const sendMessage = async (phoneNumber: string, message: string) => {
+export const sendMessage = async (
+  idInstance: string | null,
+  apiTokenInstance: string | null,
+  phoneNumber: string | null,
+  message: string
+) => {
   try {
     const response = await instanceAxios.post(
       `/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
@@ -75,7 +75,7 @@ export const sendMessage = async (phoneNumber: string, message: string) => {
   }
 }
 
-export const getMessages = async () => {
+export const getMessages = async (idInstance: string | null, apiTokenInstance: string | null) => {
   try {
     const response = await instanceAxios.get(
       `/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`
@@ -85,9 +85,15 @@ export const getMessages = async () => {
 
     const { receiptId, body } = response.data
     if (body?.messageData?.textMessageData?.textMessage) {
-        await instanceAxios.delete(
+      await instanceAxios.delete(
         `/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${receiptId}`
       )
+
+      console.log({
+        id: receiptId,
+        sender: body.senderData.chatId ?? body.senderData.sender,
+        content: body.messageData.textMessageData.textMessage,
+      })
 
       return {
         id: receiptId,
@@ -102,14 +108,13 @@ export const getMessages = async () => {
   }
 }
 
-
-export const getSettings = async () => {
+export const getSettings = async (idInstance: string | null, apiTokenInstance: string | null) => {
   try {
     const response = await instanceAxios.get(
       `/waInstance${idInstance}/getSettings/${apiTokenInstance}`
-    );
-    return response.data.wid;
+    )
+    return response.data.wid
   } catch (error) {
-    throw new Error(handleApiError(error));
+    throw new Error(handleApiError(error))
   }
-};
+}

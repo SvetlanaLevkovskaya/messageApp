@@ -1,8 +1,9 @@
-import { useEffect, KeyboardEvent, useCallback, useReducer } from 'react'
+import { KeyboardEvent, useCallback, useEffect, useReducer } from 'react'
 import { getMessages, getSettings, sendMessage } from '../services/clientApi.ts'
 import { MessageList } from './MessageList'
 import { MessageInput } from './MessageInput'
 import { Message } from '../types'
+import { useAuthData } from '../hooks/useAuthData.ts'
 
 interface ChatState {
   messages: Message[]
@@ -13,7 +14,7 @@ interface ChatState {
 const initialState: ChatState = {
   messages: JSON.parse(localStorage.getItem('chatMessages') || '[]'),
   wid: null,
-  inputMessage: ''
+  inputMessage: '',
 }
 
 type ChatAction =
@@ -39,14 +40,15 @@ const chatReducer = (state: ChatState, action: ChatAction): ChatState => {
 
 export const Chat = () => {
   const [state, dispatch] = useReducer(chatReducer, initialState)
+  const { idInstance, apiTokenInstance, phoneNumber } = useAuthData()
+
   const { messages, inputMessage, wid } = state
 
-  const phoneNumber = localStorage.getItem('phoneNumber') || ''
-
   useEffect(() => {
+    if (!idInstance || !apiTokenInstance) return
     const fetchWid = async () => {
       try {
-        const settings = await getSettings()
+        const settings = await getSettings(idInstance, apiTokenInstance)
         dispatch({ type: 'SET_WID', payload: settings })
       } catch (error) {
         console.error('Error fetching settings:', error)
@@ -54,17 +56,17 @@ export const Chat = () => {
     }
 
     fetchWid()
-  }, [])
-
+  }, [idInstance, apiTokenInstance])
 
   useEffect(() => {
+    if (!idInstance || !apiTokenInstance) return
     const fetchMessages = async () => {
       try {
-        const newMessage = await getMessages()
+        const newMessage = await getMessages(idInstance, apiTokenInstance)
         if (newMessage) {
           dispatch({
             type: 'SET_MESSAGES',
-            payload: [...messages, newMessage]
+            payload: [...messages, newMessage],
           })
         }
       } catch (error) {
@@ -74,8 +76,7 @@ export const Chat = () => {
 
     const interval = setInterval(fetchMessages, 5000)
     return () => clearInterval(interval)
-  }, [messages])
-
+  }, [messages, idInstance, apiTokenInstance])
 
   useEffect(() => {
     localStorage.setItem('chatMessages', JSON.stringify(messages))
@@ -84,14 +85,11 @@ export const Chat = () => {
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim()) return
     try {
-      const wid = await getSettings()
-      await sendMessage(phoneNumber, inputMessage)
+      const wid = await getSettings(idInstance, apiTokenInstance)
+      await sendMessage(idInstance, apiTokenInstance, phoneNumber, inputMessage)
       dispatch({
         type: 'SET_MESSAGES',
-        payload: [
-          ...messages,
-          { id: Date.now().toString(), sender: wid, content: inputMessage }
-        ]
+        payload: [...messages, { id: Date.now().toString(), sender: wid, content: inputMessage }],
       })
       dispatch({ type: 'CLEAR_INPUT_MESSAGE' })
     } catch (error) {
