@@ -69,9 +69,6 @@ export const sendMessage = async (phoneNumber: string, message: string) => {
         message,
       }
     )
-
-    console.log('response.data sendMessage', response.data)
-
     return response.data
   } catch (error) {
     throw new Error(handleApiError(error))
@@ -84,23 +81,13 @@ export const getMessages = async () => {
       `/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`
     )
 
-    console.log('response', response)
-
     if (!response.data) return null
 
     const { receiptId, body } = response.data
-    console.log('response receiptId', receiptId)
-    console.log('response body', body)
     if (body?.messageData?.textMessageData?.textMessage) {
         await instanceAxios.delete(
         `/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${receiptId}`
       )
-      console.log('response.data', response.data)
-      console.log('response.return', {
-        id: receiptId,
-        sender: body.senderData.chatId,
-        content: body.messageData.textMessageData.textMessage,
-      })
 
       return {
         id: receiptId,
@@ -121,7 +108,6 @@ export const getSettings = async () => {
     const response = await instanceAxios.get(
       `/waInstance${idInstance}/getSettings/${apiTokenInstance}`
     );
-    console.log('response getSettings', response);
     return response.data.wid;
   } catch (error) {
     throw new Error(handleApiError(error));
