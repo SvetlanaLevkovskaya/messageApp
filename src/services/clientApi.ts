@@ -36,6 +36,9 @@ instanceAxios.interceptors.response.use(
   }
 )
 
+const idInstance = localStorage.getItem('idInstance')
+const apiTokenInstance = localStorage.getItem('apiTokenInstance')
+
 export const getAuthorizationCode = async (
   idInstance: string,
   apiTokenInstance: string,
@@ -52,6 +55,74 @@ export const getAuthorizationCode = async (
     } else {
       throw new Error('Failed to retrieve the authorization code. Please try again.');
     }
+  } catch (error) {
+    throw new Error(handleApiError(error));
+  }
+};
+
+export const sendMessage = async (phoneNumber: string, message: string) => {
+  try {
+    const response = await instanceAxios.post(
+      `/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
+      {
+        chatId: `${phoneNumber}@c.us`,
+        message,
+      }
+    )
+
+    console.log('response.data sendMessage', response.data)
+
+    return response.data
+  } catch (error) {
+    throw new Error(handleApiError(error))
+  }
+}
+
+export const getMessages = async () => {
+  try {
+    const response = await instanceAxios.get(
+      `/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`
+    )
+
+    console.log('response', response)
+
+    if (!response.data) return null
+
+    const { receiptId, body } = response.data
+    console.log('response receiptId', receiptId)
+    console.log('response body', body)
+    if (body?.messageData?.textMessageData?.textMessage) {
+        await instanceAxios.delete(
+        `/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${receiptId}`
+      )
+      console.log('response.data', response.data)
+      console.log('response.return', {
+        id: receiptId,
+        sender: body.senderData.chatId,
+        content: body.messageData.textMessageData.textMessage,
+      })
+
+      return {
+        id: receiptId,
+        sender: body.senderData.chatId ?? body.senderData.sender,
+        content: body.messageData.textMessageData.textMessage,
+      }
+    }
+
+    return null
+  } catch (error) {
+    throw new Error(handleApiError(error))
+  }
+}
+
+
+export const getSettings = async () => {
+  try {
+    const response = await instanceAxios.get(
+      `/waInstance${idInstance}/getSettings/${apiTokenInstance}`
+    );
+    console.log('response getSettings', response);
+    return response.data.wid;
   } catch (error) {
     throw new Error(handleApiError(error));
   }

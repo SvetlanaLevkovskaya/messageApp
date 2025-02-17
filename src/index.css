@@ -18,26 +18,3 @@ body {
 }
 
 
-
-nav {}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-}
-
-nav ul li {
-  margin: 0.5rem 0; /* Добавление промежутка между элементами */
-  text-align: left;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: blue;
-  display: block; /* Элементы ссылки занимают всю ширину */
-}
-
-nav ul li a:hover {
-  text-decoration: underline;
-}
-

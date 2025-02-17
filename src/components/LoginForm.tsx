@@ -75,7 +75,7 @@ export const LoginForm = () => {
           className={`px-6 bg-teal-700 text-white font-semibold py-2.5 rounded-full hover:bg-teal-800 w-fit mx-auto transition-all ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
           disabled={isSubmitting}
         >
-          Login
+          Create new Chat
         </button>
       </form>
 
