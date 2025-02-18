@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { customToastSuccess, Input } from '../ui'
-import { getAuthorizationCode } from '../services/clientApi.ts'
 
-import { validationSchema } from '../utils/validationSchema.ts'
+import { Input, customToastSuccess } from '@components/ui'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { getAuthorizationCode } from '@services/clientApi.ts'
+import { validationSchema } from '@utils/validationSchema.ts'
 
 interface FormData {
   idInstance: string

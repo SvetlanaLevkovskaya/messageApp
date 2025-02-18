@@ -1,7 +1,8 @@
-import { Chat } from '../components/Chat.tsx'
 import { useNavigate } from 'react-router-dom'
 
-export const ChatPage = () => {
+import { Chat } from '@components/index'
+
+const ChatPage = () => {
   const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.clear()
@@ -10,7 +11,7 @@ export const ChatPage = () => {
   return (
     <div className="flex flex-col h-screen p-4">
       <button
-        onClick={ handleLogout }
+        onClick={handleLogout}
         className="px-4 py-2 text-rose-500 rounded mb-4 self-end border transition-all hover:opacity-70"
       >
         Logout
@@ -22,3 +23,5 @@ export const ChatPage = () => {
     </div>
   )
 }
+
+export default ChatPage

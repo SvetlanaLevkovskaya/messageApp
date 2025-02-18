@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export const useAuthData = () => {
   const [idInstance, setIdInstance] = useState<string | null>(localStorage.getItem('idInstance'))
-  const [apiTokenInstance, setApiTokenInstance] = useState<string | null>(localStorage.getItem('apiTokenInstance'))
+  const [apiTokenInstance, setApiTokenInstance] = useState<string | null>(
+    localStorage.getItem('apiTokenInstance')
+  )
   const [phoneNumber, setPhoneNumber] = useState<string | null>(localStorage.getItem('phoneNumber'))
 
   useEffect(() => {
@@ -11,7 +13,6 @@ export const useAuthData = () => {
       setApiTokenInstance(localStorage.getItem('apiTokenInstance'))
       setPhoneNumber(localStorage.getItem('phoneNumber'))
     }
-
 
     window.addEventListener('storage', handleStorageChange)
 

@@ -2,14 +2,14 @@ import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 
 type InputTypeNamespace = 'text' | 'tel'
 
-interface InputProps {
+interface Props {
   type?: InputTypeNamespace
   placeholder: string
   register: UseFormRegisterReturn<string>
   errors: FieldError | undefined
 }
 
-export const Input = ({ type = 'text', placeholder, register, errors }: InputProps) => (
+export const Input = ({ type = 'text', placeholder, register, errors }: Props) => (
   <div className="transition-all">
     <input
       type={type}
