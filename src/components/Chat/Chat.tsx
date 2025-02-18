@@ -5,6 +5,7 @@ import { MessageList } from '@components/Chat/MessageList'
 import { useAuthData } from '@hooks/useAuthData'
 import { getMessages, getSettings, sendMessage } from '@services/clientApi'
 import { Message } from '@type/index'
+import dayjs from 'dayjs'
 
 interface ChatState {
   messages: Message[]
@@ -97,7 +98,15 @@ export const Chat = () => {
       await sendMessage(idInstance, apiTokenInstance, phoneNumber, inputMessage)
       dispatch({
         type: 'SET_MESSAGES',
-        payload: [...messages, { id: Date.now().toString(), sender: wid, content: inputMessage }],
+        payload: [
+          ...messages,
+          {
+            id: Date.now().toString(),
+            sender: wid,
+            content: inputMessage,
+            timestamp: dayjs().format('h:mm A'),
+          },
+        ],
       })
       dispatch({ type: 'CLEAR_INPUT_MESSAGE' })
     } catch (error) {

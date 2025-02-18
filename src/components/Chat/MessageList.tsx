@@ -1,3 +1,4 @@
+import { Check } from '@components/Chat/Check.tsx'
 import { Message } from '@type/index'
 
 interface Props {
@@ -15,13 +16,29 @@ export const MessageList = ({ messages, wid }: Props) => {
         backgroundSize: 'auto',
       }}
     >
-      {messages.map((msg) => (
-        <div key={msg.id} className={`mb-2 ${msg.sender === wid ? 'text-right' : 'text-left'}`}>
-          <p className="inline-block p-2 rounded shadow max-w-[500px] break-words bg-white">
-            {msg.content}
-          </p>
-        </div>
-      ))}
+      {messages.map((msg) => {
+        return (
+          <div key={msg.id} className={`mb-2 ${msg.sender === wid ? 'text-right' : 'text-left'}`}>
+            <div
+              className={`inline-block p-2 rounded shadow max-w-[500px] break-words bg-white ${
+                msg.sender === wid ? 'ml-auto' : 'mr-auto'
+              }`}
+            >
+              <p>{msg.content}</p>
+              <div className="flex justify-end items-center gap-1 row-start-2 col-start-2">
+                <span
+                  className={`block text-sm text-gray-500 ${
+                    msg.sender === wid ? 'text-right' : 'text-left'
+                  }`}
+                >
+                  {msg.timestamp}
+                </span>
+                {msg.sender === wid && <Check />}
+              </div>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }

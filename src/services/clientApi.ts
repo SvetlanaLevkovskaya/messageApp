@@ -1,4 +1,5 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 export const handleApiError = (error: unknown): string => {
   let errorMessage = 'Unexpected Error'
@@ -93,6 +94,7 @@ export const getMessages = async (idInstance: string | null, apiTokenInstance: s
         id: receiptId,
         sender: body.senderData.sender,
         content: body.messageData.textMessageData.textMessage,
+        timestamp: dayjs(body.timestamp * 1000).format('h:mm A'),
       }
     }
 
