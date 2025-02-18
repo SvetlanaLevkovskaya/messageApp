@@ -45,14 +45,20 @@ export const Chat = () => {
 
   const { messages, inputMessage, wid } = state
 
+  let isFetching = false
+
   useEffect(() => {
     if (!idInstance || !apiTokenInstance) return
     const fetchWid = async () => {
+      if (isFetching) return
+      isFetching = true
       try {
         const settings = await getSettings(idInstance, apiTokenInstance)
         dispatch({ type: 'SET_WID', payload: settings })
       } catch (error) {
         console.error('Error fetching settings:', error)
+      } finally {
+        isFetching = false
       }
     }
 
@@ -61,6 +67,7 @@ export const Chat = () => {
 
   useEffect(() => {
     if (!idInstance || !apiTokenInstance) return
+
     const fetchMessages = async () => {
       try {
         const newMessage = await getMessages(idInstance, apiTokenInstance)

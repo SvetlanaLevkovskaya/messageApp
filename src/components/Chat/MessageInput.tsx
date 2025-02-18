@@ -10,13 +10,13 @@ interface Props {
 
 export const MessageInput = ({ inputMessage, onInputChange, onSendMessage, onKeyDown }: Props) => {
   return (
-    <div className="flex items-center px-3.5 py-0.5 border-t border-gray-200 bg-gray-100">
+    <div className="flex items-center px-3.5 py-0.5 border-b border-r border-l border-gray-200 bg-white">
       <input
         type="text"
         value={inputMessage}
         onKeyDown={onKeyDown}
         onChange={onInputChange}
-        className="flex-1 border-none outline-none p-[10px] bg-gray-100"
+        className="flex-1 border-none outline-none p-[10px] "
         placeholder="Start typing..."
       />
       <div className="flex items-center gap-4">

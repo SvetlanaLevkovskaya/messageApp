@@ -89,15 +89,9 @@ export const getMessages = async (idInstance: string | null, apiTokenInstance: s
         `/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${receiptId}`
       )
 
-      console.log({
-        id: receiptId,
-        sender: body.senderData.chatId ?? body.senderData.sender,
-        content: body.messageData.textMessageData.textMessage,
-      })
-
       return {
         id: receiptId,
-        sender: body.senderData.chatId ?? body.senderData.sender,
+        sender: body.senderData.sender,
         content: body.messageData.textMessageData.textMessage,
       }
     }

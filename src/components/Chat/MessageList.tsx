@@ -7,10 +7,17 @@ interface Props {
 
 export const MessageList = ({ messages, wid }: Props) => {
   return (
-    <div className="flex-1 p-4 overflow-y-auto bg-gray-100">
+    <div
+      className="flex-1 p-4 overflow-y-auto border border-gray-200"
+      style={{
+        backgroundImage: 'url("/whatsapp-img.webp")',
+        backgroundRepeat: 'repeat',
+        backgroundSize: 'auto',
+      }}
+    >
       {messages.map((msg) => (
         <div key={msg.id} className={`mb-2 ${msg.sender === wid ? 'text-right' : 'text-left'}`}>
-          <p className="inline-block bg-white p-2 rounded shadow max-w-[500px] break-words">
+          <p className="inline-block p-2 rounded shadow max-w-[500px] break-words bg-white">
             {msg.content}
           </p>
         </div>
