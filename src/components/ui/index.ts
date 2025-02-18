@@ -1,3 +1,3 @@
-export * from './CustomToast/CustomToast.tsx'
-export * from './Input/Input.tsx'
-export * from './Spinner/Spinner.tsx'
+export * from './CustomToast/CustomToast'
+export * from './Input/Input'
+export * from './Spinner/Spinner'

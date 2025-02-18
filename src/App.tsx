@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router'
 
 import { Spinner } from '@components/ui'
-import { AppRoutes, routeConfig } from '@config/routes.tsx'
+import { AppRoutes, routeConfig } from '@config/routes'
 
 import './App.css'
 

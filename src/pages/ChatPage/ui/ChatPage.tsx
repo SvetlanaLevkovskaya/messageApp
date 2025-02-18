@@ -4,10 +4,12 @@ import { Chat } from '@components/index'
 
 const ChatPage = () => {
   const navigate = useNavigate()
+
   const handleLogout = () => {
     localStorage.clear()
     navigate('/')
   }
+
   return (
     <div className="flex flex-col h-screen p-4">
       <button

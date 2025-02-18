@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { Input, customToastSuccess } from '@components/ui'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getAuthorizationCode } from '@services/clientApi.ts'
-import { validationSchema } from '@utils/validationSchema.ts'
+import { getAuthorizationCode } from '@services/clientApi'
+import { validationSchema } from '@utils/validationSchema'
 
 interface FormData {
   idInstance: string

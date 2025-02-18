@@ -1,9 +1,9 @@
 import { RouteProps } from 'react-router-dom'
 
+import { ProtectedRoute } from '@components/ProtectedRoute/ProtectedRoute'
+import { ChatPage } from '@pages/ChatPage'
 import { LoginPage } from '@pages/LoginPage'
 import { NotFoundPage } from '@pages/not-found-page'
-
-import { ChatPage } from '../pages/ChatPage'
 
 export enum AppRoutes {
   LOGIN = 'login',
@@ -24,7 +24,11 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   },
   [AppRoutes.CHAT]: {
     path: RoutePath.chat,
-    element: <ChatPage />,
+    element: (
+      <ProtectedRoute>
+        <ChatPage />
+      </ProtectedRoute>
+    ),
   },
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath['not-found'],

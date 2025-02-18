@@ -1,2 +1,3 @@
-export { LoginForm } from '@components/LoginForm/LoginForm.tsx'
+export { LoginForm } from '@components/LoginForm/LoginForm'
 export { Chat } from '@components/Chat/Chat'
+export { ProtectedRoute } from '@components/ProtectedRoute/ProtectedRoute'

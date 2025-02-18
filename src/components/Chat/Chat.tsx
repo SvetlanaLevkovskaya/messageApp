@@ -1,11 +1,10 @@
 import { KeyboardEvent, useCallback, useEffect, useReducer } from 'react'
 
-import { useAuthData } from '@hooks/useAuthData.ts'
-import { getMessages, getSettings, sendMessage } from '@services/clientApi.ts'
-import { Message } from '@type/index.ts'
-
-import { MessageInput } from './MessageInput.tsx'
-import { MessageList } from './MessageList.tsx'
+import { MessageInput } from '@components/Chat/MessageInput'
+import { MessageList } from '@components/Chat/MessageList'
+import { useAuthData } from '@hooks/useAuthData'
+import { getMessages, getSettings, sendMessage } from '@services/clientApi'
+import { Message } from '@type/index'
 
 interface ChatState {
   messages: Message[]
