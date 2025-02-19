@@ -1,4 +1,4 @@
-import { KeyboardEvent, useCallback, useEffect, useReducer } from 'react'
+import { KeyboardEvent, useCallback, useEffect, useReducer, useRef } from 'react'
 
 import { MessageInput } from '@components/Chat/MessageInput'
 import { MessageList } from '@components/Chat/MessageList'
@@ -14,7 +14,7 @@ interface ChatState {
 }
 
 const initialState: ChatState = {
-  messages: JSON.parse(localStorage.getItem('chatMessages') || '[]'),
+  messages: JSON.parse(localStorage.getItem('chatMessages') ?? '[]'),
   wid: null,
   inputMessage: '',
 }
@@ -43,23 +43,22 @@ const chatReducer = (state: ChatState, action: ChatAction): ChatState => {
 export const Chat = () => {
   const [state, dispatch] = useReducer(chatReducer, initialState)
   const { idInstance, apiTokenInstance, phoneNumber } = useAuthData()
+  const isFetching = useRef(false)
 
   const { messages, inputMessage, wid } = state
-
-  let isFetching = false
 
   useEffect(() => {
     if (!idInstance || !apiTokenInstance) return
     const fetchWid = async () => {
-      if (isFetching) return
-      isFetching = true
+      if (isFetching.current) return
+      isFetching.current = true
       try {
         const settings = await getSettings(idInstance, apiTokenInstance)
         dispatch({ type: 'SET_WID', payload: settings })
       } catch (error) {
         console.error('Error fetching settings:', error)
       } finally {
-        isFetching = false
+        isFetching.current = false
       }
     }
 
@@ -92,9 +91,8 @@ export const Chat = () => {
   }, [messages])
 
   const handleSendMessage = useCallback(async () => {
-    if (!inputMessage.trim()) return
+    if (!inputMessage.trim() || !wid) return
     try {
-      const wid = await getSettings(idInstance, apiTokenInstance)
       await sendMessage(idInstance, apiTokenInstance, phoneNumber, inputMessage)
       dispatch({
         type: 'SET_MESSAGES',
@@ -112,7 +110,7 @@ export const Chat = () => {
     } catch (error) {
       console.error('Error sending message:', error)
     }
-  }, [inputMessage, messages, phoneNumber])
+  }, [apiTokenInstance, idInstance, inputMessage, messages, phoneNumber, wid])
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputMessage.trim()) {

@@ -25,7 +25,7 @@ export const MessageList = ({ messages, wid }: Props) => {
               }`}
             >
               <p>{msg.content}</p>
-              <div className="flex justify-end items-center gap-1 row-start-2 col-start-2">
+              <div className="flex justify-end items-center gap-1">
                 <span
                   className={`block text-sm text-gray-500 ${
                     msg.sender === wid ? 'text-right' : 'text-left'
